@@ -523,13 +523,7 @@ export function HighlightsSection({ hotel }: HighlightsSectionProps) {
 function PrimeLocationCard({ primeTitle }: { primeTitle: string | null }) {
   return (
     <div className="h-full relative rounded-lg border border-gray-200 bg-bg-light shadow-sm p-5 md:p-6 flex flex-col min-h-0">
-      <span
-        className="absolute inset-0 flex items-center justify-center text-gray-200 font-serif text-6xl md:text-7xl pointer-events-none select-none tracking-tighter rounded-lg"
-        aria-hidden
-      >
-        OI
-      </span>
-      <div className="relative z-10 flex items-start gap-3 flex-1 min-h-0">
+      <div className="flex items-start gap-3 flex-1 min-h-0">
         <span className="flex-shrink-0">
           <HighlightIcon type="building" featured light />
         </span>
