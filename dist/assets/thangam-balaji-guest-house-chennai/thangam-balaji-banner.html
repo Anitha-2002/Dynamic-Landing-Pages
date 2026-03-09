@@ -28,7 +28,7 @@
     background: #050810;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
     min-height: 100%;
     font-family: 'Raleway', sans-serif;
   }
@@ -551,13 +551,13 @@
     100% { top: calc(100% + 10px); opacity: 0; }
   }
 
-  /* Scale to fit when embedded in iframe (hero section) */
+  /* Scale by width to fill x-axis (no black gaps); anchor bottom so hotel name stays visible */
   .banner-wrapper {
     transform: scale(var(--scale, 1));
-    transform-origin: center center;
+    transform-origin: center bottom;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
     min-height: 100%;
     width: 100%;
   }
@@ -663,10 +663,10 @@
 </div>
 
 <script>
-// Scale banner to fit iframe viewport (800x960 design)
+// Scale by width so banner fills x-axis (no black gaps); anchor at bottom so hotel name stays visible
 (function(){
   function setScale() {
-    var s = Math.min(window.innerWidth / 800, window.innerHeight / 960);
+    var s = window.innerWidth / 800;
     document.documentElement.style.setProperty('--scale', s);
   }
   setScale();

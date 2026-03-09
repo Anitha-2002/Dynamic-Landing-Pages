@@ -663,10 +663,10 @@
 </div>
 
 <script>
-// Scale banner to fit iframe viewport (800x960 design)
+// Scale banner to cover iframe viewport (fill x-axis, no side gaps; 800x960 design)
 (function(){
   function setScale() {
-    var s = Math.min(window.innerWidth / 800, window.innerHeight / 960);
+    var s = Math.max(window.innerWidth / 800, window.innerHeight / 960);
     document.documentElement.style.setProperty('--scale', s);
   }
   setScale();

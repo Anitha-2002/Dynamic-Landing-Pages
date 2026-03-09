@@ -1,50 +1,52 @@
-import { useRef, useState, useEffect, Suspense, lazy } from 'react'
-import { Canvas } from '@react-three/fiber'
-import { useScroll, useTransform } from 'framer-motion'
-import type { Hotel } from '../services/hotelApi'
+import { useRef, useState, useEffect, Suspense, lazy } from "react";
+import { Canvas } from "@react-three/fiber";
+import { useScroll, useTransform } from "framer-motion";
+import type { Hotel } from "../services/hotelApi";
 
-const HeroScene = lazy(() => import('./3d/HeroScene').then((m) => ({ default: m.HeroScene })))
+const HeroScene = lazy(() =>
+  import("./3d/HeroScene").then((m) => ({ default: m.HeroScene })),
+);
 
 interface Hero3DSectionProps {
-  hotel: Hotel
+  hotel: Hotel;
 }
 
 function usePrefersReducedMotion() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setPrefersReducedMotion(mq.matches)
-    const handler = () => setPrefersReducedMotion(mq.matches)
-    mq.addEventListener('change', handler)
-    return () => mq.removeEventListener('change', handler)
-  }, [])
-  return prefersReducedMotion
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mq.matches);
+    const handler = () => setPrefersReducedMotion(mq.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return prefersReducedMotion;
 }
 
 export function Hero3DSection({ hotel }: Hero3DSectionProps) {
-  const sectionRef = useRef<HTMLElement>(null)
-  const prefersReducedMotion = usePrefersReducedMotion()
-  const [use3D, setUse3D] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const [use3D, setUse3D] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ['start start', 'end start'],
-  })
-  const scrollProgress = useTransform(scrollYProgress, [0, 1], [0, 1])
+    offset: ["start start", "end start"],
+  });
+  const scrollProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   useEffect(() => {
     const check = () => {
-      const width = window.innerWidth
-      setUse3D(!prefersReducedMotion && width >= 768)
-    }
-    check()
-    window.addEventListener('resize', check)
-    return () => window.removeEventListener('resize', check)
-  }, [prefersReducedMotion])
+      const width = window.innerWidth;
+      setUse3D(!prefersReducedMotion && width >= 768);
+    };
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, [prefersReducedMotion]);
 
-  const scene = hotel['3dScene']
-  const primaryImage = scene?.primaryImage ?? hotel.gallery?.[0]?.url
-  const customBannerUrl = hotel.customBannerUrl
+  const scene = hotel["3dScene"];
+  const primaryImage = scene?.primaryImage ?? hotel.gallery?.[0]?.url;
+  const customBannerUrl = hotel.customBannerUrl;
 
   return (
     <section
@@ -61,10 +63,11 @@ export function Hero3DSection({ hotel }: Hero3DSectionProps) {
         />
       ) : use3D ? (
         <div className="absolute inset-0">
-          <Canvas camera={{ position: [0, 1.5, 4], fov: 50 }} gl={{ antialias: true }}>
-            <Suspense
-              fallback={null}
-            >
+          <Canvas
+            camera={{ position: [0, 1.5, 4], fov: 50 }}
+            gl={{ antialias: true }}
+          >
+            <Suspense fallback={null}>
               <HeroScene
                 primaryImage={primaryImage}
                 cameraPath={scene?.cameraPath ?? []}
@@ -76,7 +79,9 @@ export function Hero3DSection({ hotel }: Hero3DSectionProps) {
       ) : (
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: primaryImage ? `url(${primaryImage})` : undefined }}
+          style={{
+            backgroundImage: primaryImage ? `url(${primaryImage})` : undefined,
+          }}
         />
       )}
       {!customBannerUrl && (
@@ -102,5 +107,5 @@ export function Hero3DSection({ hotel }: Hero3DSectionProps) {
         </>
       )}
     </section>
-  )
+  );
 }
