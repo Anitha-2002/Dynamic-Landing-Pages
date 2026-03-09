@@ -1,0 +1,95 @@
+{
+  "slug": "mountain-view-lodge-shimla",
+  "name": "Mountain View Lodge",
+  "tagline": "Where the mountains meet the sky.",
+  "shortDescription": "Boutique 4-star lodge in Shimla with panoramic Himalayan views and cozy fireplaces.",
+  "location": {
+    "address": "Mall Road, Shimla, Himachal Pradesh 171001, India",
+    "latitude": 31.1048,
+    "longitude": 77.1734,
+    "city": "Shimla",
+    "country": "India",
+    "mapUrl": "https://maps.google.com/?q=31.1048,77.1734"
+  },
+  "ratings": {
+    "google": {
+      "score": 4.7,
+      "reviewCount": 892
+    },
+    "overall": 4.7,
+    "stars": 4
+  },
+  "topPositiveComments": [
+    {
+      "quote": "Stunning views and warm hospitality. Will come back!",
+      "author": "Raj",
+      "source": "Google Reviews",
+      "rating": 5
+    },
+    {
+      "quote": "The fireplace in the room made our winter stay perfect.",
+      "author": "Meera",
+      "source": "MakeMyTrip",
+      "rating": 5
+    }
+  ],
+  "highlights": [
+    "Panoramic mountain views",
+    "Cozy fireplaces",
+    "Trekking tours",
+    "Organic kitchen garden"
+  ],
+  "amenities": [
+    "Free WiFi",
+    "Restaurant",
+    "Room service",
+    "Parking",
+    "Garden"
+  ],
+  "gallery": [
+    {
+      "url": "/assets/mountain-view-lodge-shimla/hero-1.webp",
+      "alt": "Mountain View Lodge with Himalayan backdrop",
+      "category": "hero"
+    }
+  ],
+  "rooms": [
+    {
+      "name": "Valley View Room",
+      "description": "King bed with floor-to-ceiling windows overlooking the valley.",
+      "maxGuests": 2,
+      "sizeSqm": 28,
+      "highlights": [
+        "Mountain view",
+        "Fireplace",
+        "Tea maker"
+      ],
+      "images": ["/assets/mountain-view-lodge-shimla/rooms/valley-view.webp"]
+    }
+  ],
+  "channels": [
+    {
+      "name": "MakeMyTrip",
+      "url": "https://www.makemytrip.com/hotels/",
+      "label": "Book on MakeMyTrip",
+      "rating": 4.6
+    }
+  ],
+  "seo": {
+    "title": "Mountain View Lodge Shimla | Boutique Hotel with Himalayan Views",
+    "metaDescription": "Stay at Mountain View Lodge in Shimla. Boutique 4-star hotel with panoramic mountain views, fireplaces, and trekking.",
+    "keywords": [
+      "Shimla hotel",
+      "Mountain view lodge Shimla",
+      "Boutique hotel Himachal"
+    ]
+  },
+  "3dScene": {
+    "style": "card-orbit",
+    "primaryImage": "/assets/mountain-view-lodge-shimla/hero-1.webp",
+    "cameraPath": [
+      { "scroll": 0, "position": [0, 1.5, 5], "lookAt": [0, 1, 0] },
+      { "scroll": 1, "position": [0, 2, 3], "lookAt": [0, 1, 0] }
+    ]
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "slug": "ocean-breeze-resort-goa",
+  "name": "Ocean Breeze Resort",
+  "tagline": "Wake up to waves at your doorstep.",
+  "shortDescription": "Beachfront 4-star resort in North Goa with infinity pool and private cabanas.",
+  "location": {
+    "address": "Candolim Beach Road, Candolim, Goa 403515, India",
+    "latitude": 15.518,
+    "longitude": 73.762,
+    "city": "Goa",
+    "country": "India",
+    "mapUrl": "https://maps.google.com/?q=15.518,73.762"
+  },
+  "ratings": {
+    "google": {
+      "score": 4.5,
+      "reviewCount": 1289
+    },
+    "overall": 4.6,
+    "stars": 4
+  },
+  "topPositiveComments": [
+    {
+      "quote": "Amazing sea view rooms and super friendly staff.",
+      "author": "Priya",
+      "source": "Google Reviews",
+      "rating": 5
+    },
+    {
+      "quote": "Best breakfast buffet we had in Goa!",
+      "author": "John",
+      "source": "MakeMyTrip",
+      "rating": 5
+    },
+    {
+      "quote": "The infinity pool at sunset is magical.",
+      "author": "Sarah",
+      "source": "Booking.com",
+      "rating": 5
+    }
+  ],
+  "highlights": [
+    "Beachfront infinity pool",
+    "Private cabanas",
+    "Free airport pickup",
+    "All-day beachside cafe"
+  ],
+  "amenities": [
+    "Free WiFi",
+    "Spa & wellness centre",
+    "Gym",
+    "Airport shuttle",
+    "Pet friendly"
+  ],
+  "gallery": [
+    {
+      "url": "/assets/ocean-breeze-resort-goa/hero-1.webp",
+      "alt": "Aerial view of Ocean Breeze Resort by the sea",
+      "category": "hero"
+    },
+    {
+      "url": "/assets/ocean-breeze-resort-goa/pool-sunset.webp",
+      "alt": "Infinity pool at sunset",
+      "category": "experience"
+    }
+  ],
+  "rooms": [
+    {
+      "name": "Sea View Deluxe",
+      "description": "King bed, balcony with full sea view, breakfast included.",
+      "maxGuests": 3,
+      "sizeSqm": 36,
+      "highlights": [
+        "Private balcony",
+        "Complimentary breakfast",
+        "Free minibar"
+      ],
+      "images": ["/assets/ocean-breeze-resort-goa/rooms/sea-view-1.webp"]
+    },
+    {
+      "name": "Garden Villa",
+      "description": "Spacious villa with private garden, ideal for families.",
+      "maxGuests": 4,
+      "sizeSqm": 52,
+      "highlights": [
+        "Private garden",
+        "Outdoor shower",
+        "Mini kitchen"
+      ],
+      "images": ["/assets/ocean-breeze-resort-goa/rooms/garden-villa-1.webp"]
+    }
+  ],
+  "channels": [
+    {
+      "name": "MakeMyTrip",
+      "url": "https://www.makemytrip.com/hotels/",
+      "label": "Book on MakeMyTrip",
+      "rating": 4.4
+    },
+    {
+      "name": "Booking.com",
+      "url": "https://www.booking.com/",
+      "label": "Book on Booking.com",
+      "rating": 4.3
+    }
+  ],
+  "seo": {
+    "title": "Ocean Breeze Resort Goa | Beachfront Hotel with Infinity Pool",
+    "metaDescription": "Stay at Ocean Breeze Resort in North Goa. Beachfront 4-star hotel with infinity pool, private cabanas, and breakfast included.",
+    "keywords": [
+      "Goa beachfront resort",
+      "Goa hotel with infinity pool",
+      "Candolim beach resort"
+    ]
+  },
+  "3dScene": {
+    "style": "card-orbit",
+    "primaryImage": "/assets/ocean-breeze-resort-goa/hero-1.webp",
+    "cameraPath": [
+      { "scroll": 0, "position": [0, 1.5, 4], "lookAt": [0, 1, 0] },
+      { "scroll": 0.5, "position": [2, 1.5, 3], "lookAt": [0, 1, 0] },
+      { "scroll": 1, "position": [0, 2.5, 2], "lookAt": [0, 1, 0] }
+    ]
+  }
+}

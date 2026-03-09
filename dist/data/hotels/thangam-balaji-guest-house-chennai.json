@@ -1,0 +1,176 @@
+{
+  "slug": "thangam-balaji-guest-house-chennai",
+  "name": "Thangam Balaji Guest House",
+  "tagline": "Comfort, cleanliness, and convenience in central Chennai.",
+  "shortDescription": "Budget guest house near US Consulate, Apollo Cancer Hospital, and Teynampet. Ideal for business travelers, families, and medical visitors with affordable rooms and a homely atmosphere.",
+  "location": {
+    "address": "407, Anna Salai, near Kalaignar Tv, Subbarayan Nagar, Teynampet, Chennai, Tamil Nadu 600018",
+    "latitude": 13.039,
+    "longitude": 80.2512,
+    "city": "Chennai",
+    "country": "India",
+    "mapUrl": "https://maps.google.com/?q=13.039,80.2512"
+  },
+  "ratings": {
+    "google": {
+      "score": 3.9,
+      "reviewCount": 507
+    },
+    "tripadvisor": {
+      "score": 4.6,
+      "reviewCount": 14
+    },
+    "overall": 3.9,
+    "stars": 2
+  },
+  "topPositiveComments": [
+    {
+      "quote": "One of the best place to stay, very clean and tidy and quiet environment for rest even though it is in the middle of the city. Good administration.",
+      "author": "drmuhammadh",
+      "source": "Tripadvisor",
+      "rating": 5
+    },
+    {
+      "quote": "Ideal for visa appointment and medical visits. Clean rooms and helpful staff.",
+      "author": "Guest",
+      "source": "Google Reviews",
+      "rating": 4
+    }
+  ],
+  "highlights": [
+    "Near US Consulate & VFS Global",
+    "Close to Apollo Cancer Hospital",
+    "Walking distance to Metro",
+    "Free Wi-Fi & breakfast",
+    "Air-conditioned rooms"
+  ],
+  "amenities": [
+    "Free Wi-Fi",
+    "Breakfast",
+    "Air-conditioned",
+    "24-hour front desk"
+  ],
+  "gallery": [
+    {
+      "url": "/assets/thangam-balaji-guest-house-chennai/hero-1.png",
+      "alt": "Twin room at Thangam Balaji Guest House with two single beds and air conditioning",
+      "category": "hero"
+    },
+    {
+      "url": "/assets/thangam-balaji-guest-house-chennai/room-twin.png",
+      "alt": "Standard twin room with white bedding and air conditioning",
+      "category": "room"
+    },
+    {
+      "url": "/assets/thangam-balaji-guest-house-chennai/room-twin-tv.png",
+      "alt": "Twin room with wall-mounted TV and AC",
+      "category": "room"
+    },
+    {
+      "url": "/assets/thangam-balaji-guest-house-chennai/room-standard.png",
+      "alt": "Guest room with comfortable bed, seating area, and window",
+      "category": "room"
+    },
+    {
+      "url": "/assets/thangam-balaji-guest-house-chennai/room-single-bed.png",
+      "alt": "Single bed room with quilted headboard",
+      "category": "room"
+    }
+  ],
+  "rooms": [
+    {
+      "name": "Standard Twin Room",
+      "description": "Two single beds with air conditioning, clean white bedding, and essential amenities. Ideal for friends or colleagues.",
+      "maxGuests": 2,
+      "sizeSqm": 18,
+      "highlights": [
+        "Air conditioning",
+        "Free Wi-Fi",
+        "Two single beds"
+      ],
+      "images": [
+        "/assets/thangam-balaji-guest-house-chennai/hero-1.png",
+        "/assets/thangam-balaji-guest-house-chennai/room-twin.png"
+      ]
+    },
+    {
+      "name": "Twin Room with TV",
+      "description": "Twin beds with wall-mounted TV and window AC. Simple, clean room for a comfortable stay.",
+      "maxGuests": 2,
+      "sizeSqm": 18,
+      "highlights": [
+        "TV",
+        "Air conditioning",
+        "Free Wi-Fi"
+      ],
+      "images": ["/assets/thangam-balaji-guest-house-chennai/room-twin-tv.png"]
+    },
+    {
+      "name": "Standard Guest Room",
+      "description": "Cozy room with comfortable bedding, small seating area, and window. Essential amenities for a pleasant stay.",
+      "maxGuests": 2,
+      "sizeSqm": 16,
+      "highlights": [
+        "Seating area",
+        "Window with curtains",
+        "Mirror"
+      ],
+      "images": [
+        "/assets/thangam-balaji-guest-house-chennai/room-standard.png"
+      ]
+    },
+    {
+      "name": "Single Room",
+      "description": "Single bed with quilted headboard, white bedding, and power outlets. Compact and comfortable.",
+      "maxGuests": 1,
+      "sizeSqm": 12,
+      "highlights": [
+        "Single bed",
+        "Air conditioning",
+        "Power outlets"
+      ],
+      "images": ["/assets/thangam-balaji-guest-house-chennai/room-single-bed.png"]
+    }
+  ],
+  "channels": [
+    {
+      "name": "Agoda",
+      "url": "https://www.agoda.com/",
+      "label": "Book on Agoda",
+      "rating": 4
+    },
+    {
+      "name": "Booking.com",
+      "url": "https://www.booking.com/",
+      "label": "Book on Booking.com",
+      "rating": 4
+    },
+    {
+      "name": "Tripadvisor",
+      "url": "https://www.tripadvisor.in/",
+      "label": "Book on Tripadvisor",
+      "rating": 4.6
+    }
+  ],
+  "seo": {
+    "title": "Thangam Balaji Guest House Chennai | Near US Consulate & Apollo Hospital",
+    "metaDescription": "Budget guest house in Teynampet, Chennai. Near US Consulate, VFS Global, Apollo Cancer Hospital & Metro. Clean rooms, free Wi-Fi, breakfast. Ideal for visa appointments & medical visitors.",
+    "keywords": [
+      "Thangam Balaji Guest House Chennai",
+      "budget hotel Teynampet",
+      "hotel near US Consulate Chennai",
+      "hotel near Apollo Hospital Chennai",
+      "guest house Anna Salai"
+    ]
+  },
+  "3dScene": {
+    "style": "card-orbit",
+    "primaryImage": "/assets/thangam-balaji-guest-house-chennai/hero-1.png",
+    "cameraPath": [
+      { "scroll": 0, "position": [0, 1.5, 4], "lookAt": [0, 1, 0] },
+      { "scroll": 0.5, "position": [2, 1.5, 3], "lookAt": [0, 1, 0] },
+      { "scroll": 1, "position": [0, 2.5, 2], "lookAt": [0, 1, 0] }
+    ]
+  },
+  "customBannerUrl": "/assets/thangam-balaji-guest-house-chennai/thangam-balaji-banner.html"
+}

@@ -1,0 +1,25 @@
+{
+  "hotels": [
+    {
+      "slug": "thangam-balaji-guest-house-chennai",
+      "name": "Thangam Balaji Guest House",
+      "primaryColor": "primary-blue",
+      "secondaryColor": "accent-gold",
+      "logoUrl": "/assets/thangam-balaji-guest-house-chennai/hero-1.png"
+    },
+    {
+      "slug": "ocean-breeze-resort-goa",
+      "name": "Ocean Breeze Resort",
+      "primaryColor": "primary-blue",
+      "secondaryColor": "accent-gold",
+      "logoUrl": "/assets/ocean-breeze-resort-goa/logo.webp"
+    },
+    {
+      "slug": "mountain-view-lodge-shimla",
+      "name": "Mountain View Lodge",
+      "primaryColor": "primary-blue",
+      "secondaryColor": "accent-gold",
+      "logoUrl": "/assets/mountain-view-lodge-shimla/logo.webp"
+    }
+  ]
+}
