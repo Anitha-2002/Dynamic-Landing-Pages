@@ -15,19 +15,27 @@ export function LocationSection({ hotel }: LocationSectionProps) {
 
   return (
     <section
-      className="py-12 md:py-16 px-4 bg-section-dark"
+      className="relative py-12 md:py-16 px-4 bg-bg-light overflow-hidden"
       aria-labelledby="location-heading"
     >
-      <div className="max-w-6xl mx-auto">
-        <h2 id="location-heading" className="text-2xl md:text-3xl font-bold text-white mb-8">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.06]"
+        style={{
+          backgroundImage:
+            'linear-gradient(to right, rgba(15,23,42,0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(15,23,42,0.12) 1px, transparent 1px)',
+          backgroundSize: '32px 32px',
+        }}
+      />
+      <div className="max-w-6xl mx-auto relative">
+        <h2 id="location-heading" className="text-2xl md:text-3xl font-bold text-text-primary mb-8">
           Location
         </h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="glass-card card-glow card-glow-hover p-6 rounded-xl transition-shadow duration-300">
-            <address className="not-italic text-white">
+          <div className="p-6 rounded-xl bg-bg-light border border-gray-200 shadow-sm">
+            <address className="not-italic text-text-primary">
               <p className="font-semibold">{hotel.name}</p>
-              <p className="text-white/70 mt-2">{loc.address}</p>
-              <p className="text-white/70 mt-1">
+              <p className="text-text-muted mt-2">{loc.address}</p>
+              <p className="text-text-muted mt-1">
                 {loc.city}, {loc.country}
               </p>
             </address>
@@ -36,14 +44,14 @@ export function LocationSection({ hotel }: LocationSectionProps) {
                 href={loc.mapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="led-btn-glow inline-block mt-4 px-4 py-2 rounded-lg bg-accent-gold text-banner-night font-medium hover:opacity-90 transition"
+                className="inline-block mt-4 px-4 py-2 rounded-lg bg-primary-blue text-white font-medium hover:opacity-90 transition"
               >
                 Open in Google Maps
               </a>
             )}
           </div>
           {mapEmbedUrl && (
-            <div className="glass-card card-glow aspect-video w-full rounded-xl overflow-hidden">
+            <div className="aspect-video w-full rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-white">
               <iframe
                 src={mapEmbedUrl}
                 title={`Map showing location of ${hotel.name}`}

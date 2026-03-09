@@ -1,13 +1,13 @@
-import { useParams } from 'react-router-dom'
-import { useGetHotelBySlugQuery } from '@/services/hotelApi'
-import { Hero3DSection } from '@/components/Hero3DSection'
-import { HighlightsSection } from '@/components/HighlightsSection'
-import { RoomsSection } from '@/components/RoomsSection'
-import { ReviewsSection } from '@/components/ReviewsSection'
-import { LocationSection } from '@/components/LocationSection'
-import { ChannelsSection } from '@/components/ChannelsSection'
-import { FooterSection } from '@/components/FooterSection'
-import { HotelSEO } from '@/components/HotelSEO'
+import { useParams } from "react-router-dom";
+import { useGetHotelBySlugQuery } from "@/services/hotelApi";
+import { Hero3DSection } from "@/components/Hero3DSection";
+import { HighlightsSection } from "@/components/HighlightsSection";
+import { RoomsSection } from "@/components/RoomsSection";
+import { ReviewsSection } from "@/components/ReviewsSection";
+import { LocationSection } from "@/components/LocationSection";
+import { ChannelsSection } from "@/components/ChannelsSection";
+import { FooterSection } from "@/components/FooterSection";
+import { HotelSEO } from "@/components/HotelSEO";
 
 function LandingSkeleton() {
   return (
@@ -24,21 +24,25 @@ function LandingSkeleton() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export function HotelLandingPage() {
-  const { hotelSlug } = useParams<{ hotelSlug: string }>()
-  const { data: hotel, isLoading, isError } = useGetHotelBySlugQuery(hotelSlug!, { skip: !hotelSlug })
+  const { hotelSlug } = useParams<{ hotelSlug: string }>();
+  const {
+    data: hotel,
+    isLoading,
+    isError,
+  } = useGetHotelBySlugQuery(hotelSlug!, { skip: !hotelSlug });
 
-  if (!hotelSlug) return null
-  if (isLoading) return <LandingSkeleton />
+  if (!hotelSlug) return null;
+  if (isLoading) return <LandingSkeleton />;
   if (isError || !hotel) {
     return (
       <main className="min-h-screen bg-bg-light flex items-center justify-center">
         <p className="text-font-red">Hotel not found.</p>
       </main>
-    )
+    );
   }
 
   return (
@@ -52,13 +56,13 @@ export function HotelLandingPage() {
           <HighlightsSection hotel={hotel} />
           <RoomsSection hotel={hotel} />
           <ReviewsSection hotel={hotel} />
-          <LocationSection hotel={hotel} />
           <ChannelsSection hotel={hotel} />
+          <LocationSection hotel={hotel} />
         </main>
         <footer>
           <FooterSection hotel={hotel} />
         </footer>
       </div>
     </>
-  )
+  );
 }

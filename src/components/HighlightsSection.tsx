@@ -4,65 +4,324 @@ interface HighlightsSectionProps {
   hotel: Hotel
 }
 
-const defaultIcons: Record<string, string> = {
-  pool: '🏊',
-  beach: '🏖️',
-  cafe: '☕',
-  pickup: '🚐',
-  wifi: '📶',
-  spa: '💆',
-  gym: '💪',
-  shuttle: '🚗',
-  pet: '🐾',
-  garden: '🌿',
-  fireplace: '🔥',
-  restaurant: '🍽️',
+type IconType = 'building' | 'snowflake' | 'medical' | 'metro' | 'coffee' | 'bell' | 'shower' | 'default'
+
+const GRID_ORDER: Array<{ key: string; tag: string; title: string; description: string; icon: IconType }> = [
+  {
+    key: 'apollo',
+    tag: 'NEARBY',
+    title: 'Apollo Cancer Hospital',
+    description:
+      'Ideal for patients & families visiting Apollo. Close proximity means less stress during a difficult time.',
+    icon: 'medical',
+  },
+  {
+    key: 'ac',
+    tag: 'ALL ROOMS',
+    title: 'Air-Conditioned',
+    description: "Beat Chennai's heat. All rooms have AC for a cool, restful stay.",
+    icon: 'snowflake',
+  },
+  {
+    key: 'metro',
+    tag: 'WALKING DISTANCE',
+    title: 'Metro Station',
+    description:
+      'Walking distance to Chennai Metro. Explore the city effortlessly — no taxis, seamless connectivity.',
+    icon: 'metro',
+  },
+  {
+    key: 'frontdesk',
+    tag: 'ALWAYS OPEN',
+    title: '24/7 Front Desk',
+    description: 'Always on hand — early check-in, late check-out, any help you need.',
+    icon: 'bell',
+  },
+  {
+    key: 'wifi',
+    tag: 'COMPLIMENTARY',
+    title: 'Free Wi-Fi & Breakfast',
+    description: 'Complimentary breakfast daily. High-speed Wi-Fi across the entire property.',
+    icon: 'coffee',
+  },
+  {
+    key: 'bathroom',
+    tag: 'EN-SUITE',
+    title: 'Private Bathrooms',
+    description: 'Every room has a clean, private en-suite bathroom for full comfort.',
+    icon: 'shower',
+  },
+]
+
+function matchHighlightToSlot(highlight: string): string {
+  const lower = highlight.toLowerCase()
+  if (lower.includes('apollo') || lower.includes('hospital') || lower.includes('medical')) return 'apollo'
+  if (lower.includes('air') || lower.includes('condition') || lower.includes('conditioned')) return 'ac'
+  if (lower.includes('metro') || lower.includes('walking') || lower.includes('distance')) return 'metro'
+  if (lower.includes('front desk') || lower.includes('24') || lower.includes('reception')) return 'frontdesk'
+  if (lower.includes('wifi') || lower.includes('breakfast') || lower.includes('wi-fi')) return 'wifi'
+  if (lower.includes('bathroom') || lower.includes('bath') || lower.includes('ensuite') || lower.includes('en-suite')) return 'bathroom'
+  return ''
 }
 
-function iconForHighlight(highlight: string): string {
-  const lower = highlight.toLowerCase()
-  if (lower.includes('pool')) return defaultIcons.pool
-  if (lower.includes('beach')) return defaultIcons.beach
-  if (lower.includes('cafe') || lower.includes('café')) return defaultIcons.cafe
-  if (lower.includes('airport') || lower.includes('pickup')) return defaultIcons.pickup
-  if (lower.includes('wifi')) return defaultIcons.wifi
-  if (lower.includes('spa')) return defaultIcons.spa
-  if (lower.includes('gym')) return defaultIcons.gym
-  if (lower.includes('shuttle')) return defaultIcons.shuttle
-  if (lower.includes('pet')) return defaultIcons.pet
-  if (lower.includes('garden')) return defaultIcons.garden
-  if (lower.includes('fireplace')) return defaultIcons.fireplace
-  if (lower.includes('restaurant')) return defaultIcons.restaurant
-  return '✨'
+function getPrimeLocationHighlight(highlights: string[]): string | null {
+  return highlights.find((h) => h.toLowerCase().includes('consulate') || h.toLowerCase().includes('vfs')) ?? null
+}
+
+function IconBuilding() {
+  return (
+    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.5}
+        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+      />
+    </svg>
+  )
+}
+
+function IconSnowflake() {
+  return (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.5}
+        d="M12 2v20M4.93 4.93l14.14 14.14M2 12h20M4.93 19.07l14.14-14.14M12 6a2 2 0 110 4 2 2 0 010 4m0 8a2 2 0 110 4 2 2 0 010-4"
+      />
+    </svg>
+  )
+}
+
+function IconMedical() {
+  return (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+    </svg>
+  )
+}
+
+function IconMetro() {
+  return (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.5}
+        d="M4 6h16v12H4V6zm4 3h8m-8 4h8m-4 0v4m4-4v4"
+      />
+    </svg>
+  )
+}
+
+function IconCoffee() {
+  return (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.5}
+        d="M8 14v3m4-3v3m4-3v3M3 11h18M5 11V8a2 2 0 012-2h10a2 2 0 012 2v3M3 11a2 2 0 002 2h14a2 2 0 002-2M5 11v5a2 2 0 002 2h10a2 2 0 002-2v-5"
+      />
+    </svg>
+  )
+}
+
+function IconBell() {
+  return (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.5}
+        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+      />
+    </svg>
+  )
+}
+
+function IconShower() {
+  return (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.5}
+        d="M8 14v3m4-3v3m4-3v3M6 6h12l-2 4H8L6 6zm0 0l2-4h8l2 4M4 14h16"
+      />
+    </svg>
+  )
+}
+
+function IconDefault() {
+  return (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+    </svg>
+  )
+}
+
+function HighlightIcon({ type, featured }: { type: IconType; featured?: boolean }) {
+  const size = featured ? 'w-14 h-14' : 'w-10 h-10'
+  const circleClass = `flex items-center justify-center rounded-full bg-white/10 text-accent-gold border-2 border-accent-gold/50 ${size}`
+  const boxClass = `flex items-center justify-center rounded-lg bg-white/10 text-accent-gold border-2 border-accent-gold/50 ${size}`
+  const content = (() => {
+    switch (type) {
+      case 'building':
+        return <IconBuilding />
+      case 'snowflake':
+        return <IconSnowflake />
+      case 'medical':
+        return <IconMedical />
+      case 'metro':
+        return <IconMetro />
+      case 'coffee':
+        return <IconCoffee />
+      case 'bell':
+        return <IconBell />
+      case 'shower':
+        return <IconShower />
+      default:
+        return <IconDefault />
+    }
+  })()
+  if (type === 'medical' || type === 'metro' || type === 'coffee') {
+    return <span className={boxClass}>{content}</span>
+  }
+  return <span className={circleClass}>{content}</span>
+}
+
+function splitTitleForGold(title: string): { main: string; gold: string } {
+  const andIdx = title.indexOf(' & ')
+  if (andIdx !== -1) return { main: title.slice(0, andIdx), gold: title.slice(andIdx) }
+  const andIdx2 = title.indexOf(' and ')
+  if (andIdx2 !== -1) return { main: title.slice(0, andIdx2), gold: title.slice(andIdx2) }
+  return { main: title, gold: '' }
 }
 
 export function HighlightsSection({ hotel }: HighlightsSectionProps) {
   const highlights = hotel.highlights ?? []
+  const description = hotel.tagline ?? hotel.shortDescription ?? ''
+  const primeTitle = getPrimeLocationHighlight(highlights)
 
   if (highlights.length === 0) return null
 
+  const reviewCount = hotel.ratings?.google?.reviewCount ?? 0
+  const overallRating = hotel.ratings?.overall ?? 0
+  const roomCount = hotel.rooms?.length ?? 0
+
+  const gridItems = GRID_ORDER.map((slot) => {
+    const matched = highlights.find((h) => matchHighlightToSlot(h) === slot.key)
+    return { ...slot, title: matched ?? slot.title }
+  })
+
   return (
     <section
-      className="py-12 md:py-16 px-4 bg-bg-light"
+      className="relative py-12 md:py-20 px-4 bg-bg-dark overflow-hidden"
       aria-labelledby="highlights-heading"
     >
-      <div className="max-w-6xl mx-auto">
-        <h2 id="highlights-heading" className="text-2xl md:text-3xl font-bold text-text-primary mb-8">
-          Why stay with us
-        </h2>
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {highlights.map((item, i) => (
-            <li
-              key={i}
-              className="flex items-start gap-4 p-4 rounded-xl bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
+      <div className="max-w-6xl mx-auto relative">
+        {/* Header */}
+        <header className="mb-10 md:mb-12">
+          <p className="flex items-center gap-2 text-accent-gold text-xs font-semibold tracking-widest uppercase mb-3">
+            <span className="w-6 h-px bg-accent-gold" aria-hidden />
+            Our advantages
+          </p>
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+            <h2
+              id="highlights-heading"
+              className="text-3xl md:text-4xl font-serif font-semibold text-white text-center lg:text-left"
             >
-              <span className="text-2xl flex-shrink-0" aria-hidden>
-                {iconForHighlight(item)}
+              Why Stay With <span className="text-accent-gold">Us</span>
+            </h2>
+            {description && (
+              <p className="text-white/90 text-sm md:text-base max-w-md lg:text-right">{description}</p>
+            )}
+          </div>
+        </header>
+
+        {/* Main content: left = Prime Location, right = 2x3 grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 border border-accent-gold/30 rounded-lg overflow-hidden bg-highlight-card">
+          {/* Left: Prime Location block (~1/3) */}
+          <div className="lg:col-span-1 relative p-6 md:p-8 min-h-[320px] flex flex-col border-b lg:border-b-0 lg:border-r border-white/10">
+            <span
+              className="absolute inset-0 flex items-center justify-center text-white/[0.06] font-serif text-7xl md:text-8xl pointer-events-none select-none tracking-tighter"
+              aria-hidden
+            >
+              OI
+            </span>
+            <div className="relative z-10 flex items-start gap-4">
+              <span className="flex-shrink-0 -ml-1">
+                <HighlightIcon type="building" featured />
               </span>
-              <span className="text-text-primary font-medium">{item}</span>
-            </li>
-          ))}
-        </ul>
+              <div className="flex-1 min-w-0">
+                <span className="inline-block text-accent-gold text-xs font-semibold tracking-wider uppercase border border-accent-gold px-2 py-0.5">
+                  PRIME LOCATION
+                </span>
+                <h3 className="mt-3 font-serif text-xl md:text-2xl text-white">
+                  {primeTitle ? (
+                    <>
+                      {splitTitleForGold(primeTitle).main}
+                      <span className="text-accent-gold">{splitTitleForGold(primeTitle).gold}</span>
+                    </>
+                  ) : (
+                    'Near US Consulate & VFS Global'
+                  )}
+                </h3>
+                <p className="mt-2 text-white/90 text-sm">
+                  Perfectly positioned for visa applicants and consulate visitors. Arrive refreshed and on time — we're
+                  just minutes from your appointment.
+                </p>
+                <div className="mt-4 pt-4 border-t border-white/10 flex justify-between text-sm text-white/90">
+                  <span>5 min walk</span>
+                  <span>Anna Salai</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: 2x3 grid (~2/3) */}
+          <div className="lg:col-span-2 grid grid-cols-2 grid-rows-3 gap-px bg-white/10">
+            {gridItems.map((item) => (
+              <div
+                key={item.key}
+                className="bg-highlight-card p-4 md:p-5 flex flex-col min-h-[160px] md:min-h-[180px]"
+              >
+                <HighlightIcon type={item.icon} />
+                <h3 className="mt-3 font-serif text-base md:text-lg font-semibold text-white">{item.title}</h3>
+                <p className="mt-1 text-white/80 text-sm flex-1 line-clamp-2">{item.description}</p>
+                <span className="mt-3 inline-block text-accent-gold text-xs font-semibold tracking-wider uppercase border border-accent-gold/60 px-2 py-0.5 w-fit">
+                  {item.tag}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Statistics */}
+        <div className="mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+          <div className="text-center">
+            <p className="text-accent-gold text-2xl md:text-3xl font-bold">
+              {reviewCount > 0 ? `${reviewCount}+` : '—'}
+            </p>
+            <p className="text-white/80 text-xs font-semibold tracking-widest uppercase mt-1">Guest reviews</p>
+          </div>
+          <div className="text-center">
+            <p className="text-accent-gold text-2xl md:text-3xl font-bold">
+              {overallRating > 0 ? overallRating.toFixed(1) : '—'}
+            </p>
+            <p className="text-white/80 text-xs font-semibold tracking-widest uppercase mt-1">Google rating</p>
+          </div>
+          <div className="text-center">
+            <p className="text-accent-gold text-2xl md:text-3xl font-bold">{roomCount > 0 ? roomCount : '—'}</p>
+            <p className="text-white/80 text-xs font-semibold tracking-widest uppercase mt-1">Room types</p>
+          </div>
+          <div className="text-center">
+            <p className="text-accent-gold text-2xl md:text-3xl font-bold">24/7</p>
+            <p className="text-white/80 text-xs font-semibold tracking-widest uppercase mt-1">Support</p>
+          </div>
+        </div>
       </div>
     </section>
   )
