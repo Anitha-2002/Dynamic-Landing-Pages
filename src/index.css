@@ -12,6 +12,16 @@
   --color-text-primary: #0f172a;
   --color-text-muted: #64748b;
   --font-sans: system-ui, -apple-system, sans-serif;
+  /* Banner theme (extends hero) */
+  --color-banner-night: #050810;
+  --color-banner-night-soft: #0a0e1a;
+  --color-blue-led: #00bfff;
+  --color-blue-led-rgb: 0, 191, 255;
+  --color-blue-glow: #0080ff;
+  /* Section contrast: lighter vs darker blocks */
+  --color-section-light: #121a2e;
+  --color-section-dark: #0a0e1a;
+  --color-footer: #050810;
 }
 
 body {
@@ -84,4 +94,33 @@ body {
 
 .led-btn-glow {
   box-shadow: 0 0 16px rgba(var(--color-accent-gold-rgb), 0.5);
+}
+
+/* Glass cards with glow – banner theme */
+.glass-card {
+  background: rgba(10, 14, 26, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.card-glow {
+  box-shadow:
+    0 0 20px rgba(var(--color-accent-gold-rgb), 0.2),
+    0 0 40px rgba(var(--color-blue-led-rgb), 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.card-glow-hover:hover {
+  box-shadow:
+    0 0 28px rgba(var(--color-accent-gold-rgb), 0.35),
+    0 0 50px rgba(var(--color-blue-led-rgb), 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Page background extending banner theme */
+.bg-banner-page {
+  background: var(--color-banner-night);
+  background-image: radial-gradient(ellipse 120% 80% at 50% 0%, var(--color-banner-night-soft) 0%, transparent 50%),
+    linear-gradient(180deg, var(--color-banner-night-soft) 0%, var(--color-banner-night) 100%);
 }

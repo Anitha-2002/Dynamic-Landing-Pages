@@ -51,7 +51,7 @@ export function Hero3DSection({ hotel }: Hero3DSectionProps) {
   return (
     <section
       ref={sectionRef}
-      className="relative h-[70vh] min-h-[400px] w-full overflow-hidden bg-bg-dark"
+      className="relative h-[70vh] min-h-[400px] w-full overflow-hidden bg-banner-night"
       aria-label={`${hotel.name} hero`}
     >
       {customBannerUrl ? (

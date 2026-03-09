@@ -14,6 +14,13 @@ export default {
         'bg-light': 'var(--color-bg-light)',
         'text-primary': 'var(--color-text-primary)',
         'text-muted': 'var(--color-text-muted)',
+        'banner-night': 'var(--color-banner-night)',
+        'banner-night-soft': 'var(--color-banner-night-soft)',
+        'blue-led': 'var(--color-blue-led)',
+        'blue-glow': 'var(--color-blue-glow)',
+        'section-light': 'var(--color-section-light)',
+        'section-dark': 'var(--color-section-dark)',
+        'footer-bg': 'var(--color-footer)',
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
