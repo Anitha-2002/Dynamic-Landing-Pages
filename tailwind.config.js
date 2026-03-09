@@ -22,6 +22,7 @@ export default {
         'section-dark': 'var(--color-section-dark)',
         'section-rooms': 'var(--color-section-rooms)',
         'footer-bg': 'var(--color-footer)',
+        'whatsapp-teal': 'var(--color-whatsapp-teal)',
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
