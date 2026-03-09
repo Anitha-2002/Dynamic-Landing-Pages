@@ -1,78 +1,139 @@
-import { useCallback, useEffect, useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
-import type { Hotel } from '../services/hotelApi'
+import { useCallback, useEffect, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import type { Hotel } from "../services/hotelApi";
 
 interface HighlightsSectionProps {
-  hotel: Hotel
+  hotel: Hotel;
 }
 
-type IconType = 'building' | 'snowflake' | 'medical' | 'metro' | 'coffee' | 'bell' | 'shower' | 'default'
+type IconType =
+  | "building"
+  | "snowflake"
+  | "medical"
+  | "metro"
+  | "coffee"
+  | "bell"
+  | "shower"
+  | "default";
 
-const GRID_ORDER: Array<{ key: string; tag: string; title: string; description: string; icon: IconType }> = [
+const GRID_ORDER: Array<{
+  key: string;
+  tag: string;
+  title: string;
+  description: string;
+  icon: IconType;
+}> = [
   {
-    key: 'apollo',
-    tag: 'NEARBY',
-    title: 'Apollo Cancer Hospital',
+    key: "apollo",
+    tag: "NEARBY",
+    title: "Apollo Cancer Hospital",
     description:
-      'Ideal for patients & families visiting Apollo. Close proximity means less stress during a difficult time.',
-    icon: 'medical',
+      "Ideal for patients & families visiting Apollo. Close proximity means less stress during a difficult time.",
+    icon: "medical",
   },
   {
-    key: 'ac',
-    tag: 'ALL ROOMS',
-    title: 'Air-Conditioned',
-    description: "Beat Chennai's heat. All rooms have AC for a cool, restful stay.",
-    icon: 'snowflake',
-  },
-  {
-    key: 'metro',
-    tag: 'WALKING DISTANCE',
-    title: 'Metro Station',
+    key: "ac",
+    tag: "ALL ROOMS",
+    title: "Air-Conditioned",
     description:
-      'Walking distance to Chennai Metro. Explore the city effortlessly — no taxis, seamless connectivity.',
-    icon: 'metro',
+      "Beat Chennai's heat. All rooms have AC for a cool, restful stay.",
+    icon: "snowflake",
   },
   {
-    key: 'frontdesk',
-    tag: 'ALWAYS OPEN',
-    title: '24/7 Front Desk',
-    description: 'Always on hand — early check-in, late check-out, any help you need.',
-    icon: 'bell',
+    key: "metro",
+    tag: "WALKING DISTANCE",
+    title: "Metro Station",
+    description:
+      "Walking distance to Chennai Metro. Explore the city effortlessly — no taxis, seamless connectivity.",
+    icon: "metro",
   },
   {
-    key: 'wifi',
-    tag: 'COMPLIMENTARY',
-    title: 'Free Wi-Fi & Breakfast',
-    description: 'Complimentary breakfast daily. High-speed Wi-Fi across the entire property.',
-    icon: 'coffee',
+    key: "frontdesk",
+    tag: "ALWAYS OPEN",
+    title: "24/7 Front Desk",
+    description:
+      "Always on hand — early check-in, late check-out, any help you need.",
+    icon: "bell",
   },
   {
-    key: 'bathroom',
-    tag: 'EN-SUITE',
-    title: 'Private Bathrooms',
-    description: 'Every room has a clean, private en-suite bathroom for full comfort.',
-    icon: 'shower',
+    key: "wifi",
+    tag: "COMPLIMENTARY",
+    title: "Free Wi-Fi & Breakfast",
+    description:
+      "Complimentary breakfast daily. High-speed Wi-Fi across the entire property.",
+    icon: "coffee",
   },
-]
+  {
+    key: "bathroom",
+    tag: "EN-SUITE",
+    title: "Private Bathrooms",
+    description:
+      "Every room has a clean, private en-suite bathroom for full comfort.",
+    icon: "shower",
+  },
+];
 
 function matchHighlightToSlot(highlight: string): string {
-  const lower = highlight.toLowerCase()
-  if (lower.includes('apollo') || lower.includes('hospital') || lower.includes('medical')) return 'apollo'
-  if (lower.includes('air') || lower.includes('condition') || lower.includes('conditioned')) return 'ac'
-  if (lower.includes('metro') || lower.includes('walking') || lower.includes('distance')) return 'metro'
-  if (lower.includes('front desk') || lower.includes('24') || lower.includes('reception')) return 'frontdesk'
-  if (lower.includes('wifi') || lower.includes('breakfast') || lower.includes('wi-fi')) return 'wifi'
-  if (lower.includes('bathroom') || lower.includes('bath') || lower.includes('ensuite') || lower.includes('en-suite')) return 'bathroom'
-  return ''
+  const lower = highlight.toLowerCase();
+  if (
+    lower.includes("apollo") ||
+    lower.includes("hospital") ||
+    lower.includes("medical")
+  )
+    return "apollo";
+  if (
+    lower.includes("air") ||
+    lower.includes("condition") ||
+    lower.includes("conditioned")
+  )
+    return "ac";
+  if (
+    lower.includes("metro") ||
+    lower.includes("walking") ||
+    lower.includes("distance")
+  )
+    return "metro";
+  if (
+    lower.includes("front desk") ||
+    lower.includes("24") ||
+    lower.includes("reception")
+  )
+    return "frontdesk";
+  if (
+    lower.includes("wifi") ||
+    lower.includes("breakfast") ||
+    lower.includes("wi-fi")
+  )
+    return "wifi";
+  if (
+    lower.includes("bathroom") ||
+    lower.includes("bath") ||
+    lower.includes("ensuite") ||
+    lower.includes("en-suite")
+  )
+    return "bathroom";
+  return "";
 }
 
 function getPrimeLocationHighlight(highlights: string[]): string | null {
-  return highlights.find((h) => h.toLowerCase().includes('consulate') || h.toLowerCase().includes('vfs')) ?? null
+  return (
+    highlights.find(
+      (h) =>
+        h.toLowerCase().includes("consulate") ||
+        h.toLowerCase().includes("vfs"),
+    ) ?? null
+  );
 }
 
 function IconBuilding() {
   return (
-    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+    <svg
+      className="w-8 h-8"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -80,12 +141,18 @@ function IconBuilding() {
         d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
       />
     </svg>
-  )
+  );
 }
 
 function IconSnowflake() {
   return (
-    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+    <svg
+      className="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -93,20 +160,37 @@ function IconSnowflake() {
         d="M12 2v20M4.93 4.93l14.14 14.14M2 12h20M4.93 19.07l14.14-14.14M12 6a2 2 0 110 4 2 2 0 010 4m0 8a2 2 0 110 4 2 2 0 010-4"
       />
     </svg>
-  )
+  );
 }
 
 function IconMedical() {
   return (
-    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+    <svg
+      className="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M12 4v16m8-8H4"
+      />
     </svg>
-  )
+  );
 }
 
 function IconMetro() {
   return (
-    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+    <svg
+      className="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -114,12 +198,18 @@ function IconMetro() {
         d="M4 6h16v12H4V6zm4 3h8m-8 4h8m-4 0v4m4-4v4"
       />
     </svg>
-  )
+  );
 }
 
 function IconCoffee() {
   return (
-    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+    <svg
+      className="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -127,12 +217,18 @@ function IconCoffee() {
         d="M8 14v3m4-3v3m4-3v3M3 11h18M5 11V8a2 2 0 012-2h10a2 2 0 012 2v3M3 11a2 2 0 002 2h14a2 2 0 002-2M5 11v5a2 2 0 002 2h10a2 2 0 002-2v-5"
       />
     </svg>
-  )
+  );
 }
 
 function IconBell() {
   return (
-    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+    <svg
+      className="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -140,12 +236,18 @@ function IconBell() {
         d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
       />
     </svg>
-  )
+  );
 }
 
 function IconShower() {
   return (
-    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+    <svg
+      className="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -153,106 +255,130 @@ function IconShower() {
         d="M8 14v3m4-3v3m4-3v3M6 6h12l-2 4H8L6 6zm0 0l2-4h8l2 4M4 14h16"
       />
     </svg>
-  )
+  );
 }
 
 function IconDefault() {
   return (
-    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+    <svg
+      className="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.5}
+        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+      />
     </svg>
-  )
+  );
 }
 
-function HighlightIcon({ type, featured }: { type: IconType; featured?: boolean }) {
-  const size = featured ? 'w-14 h-14' : 'w-10 h-10'
-  const circleClass = `flex items-center justify-center rounded-full bg-white/10 text-accent-gold border-2 border-accent-gold/50 ${size}`
-  const boxClass = `flex items-center justify-center rounded-lg bg-white/10 text-accent-gold border-2 border-accent-gold/50 ${size}`
+function HighlightIcon({
+  type,
+  featured,
+}: {
+  type: IconType;
+  featured?: boolean;
+}) {
+  const size = featured ? "w-14 h-14" : "w-10 h-10";
+  const circleClass = `flex items-center justify-center rounded-full bg-white/10 text-accent-gold border-2 border-accent-gold/50 ${size}`;
+  const boxClass = `flex items-center justify-center rounded-lg bg-white/10 text-accent-gold border-2 border-accent-gold/50 ${size}`;
   const content = (() => {
     switch (type) {
-      case 'building':
-        return <IconBuilding />
-      case 'snowflake':
-        return <IconSnowflake />
-      case 'medical':
-        return <IconMedical />
-      case 'metro':
-        return <IconMetro />
-      case 'coffee':
-        return <IconCoffee />
-      case 'bell':
-        return <IconBell />
-      case 'shower':
-        return <IconShower />
+      case "building":
+        return <IconBuilding />;
+      case "snowflake":
+        return <IconSnowflake />;
+      case "medical":
+        return <IconMedical />;
+      case "metro":
+        return <IconMetro />;
+      case "coffee":
+        return <IconCoffee />;
+      case "bell":
+        return <IconBell />;
+      case "shower":
+        return <IconShower />;
       default:
-        return <IconDefault />
+        return <IconDefault />;
     }
-  })()
-  if (type === 'medical' || type === 'metro' || type === 'coffee') {
-    return <span className={boxClass}>{content}</span>
+  })();
+  if (type === "medical" || type === "metro" || type === "coffee") {
+    return <span className={boxClass}>{content}</span>;
   }
-  return <span className={circleClass}>{content}</span>
+  return <span className={circleClass}>{content}</span>;
 }
 
 export function HighlightsSection({ hotel }: HighlightsSectionProps) {
-  const highlights = hotel.highlights ?? []
-  const description = hotel.tagline ?? hotel.shortDescription ?? ''
-  const primeTitle = getPrimeLocationHighlight(highlights)
+  const highlights = hotel.highlights ?? [];
+  const description = hotel.tagline ?? hotel.shortDescription ?? "";
+  const primeTitle = getPrimeLocationHighlight(highlights);
 
-  const [slideIndex, setSlideIndex] = useState(0)
-  const [isResetting, setIsResetting] = useState(false)
-  const reduceMotion = useReducedMotion()
+  const [slideIndex, setSlideIndex] = useState(0);
+  const [isResetting, setIsResetting] = useState(false);
+  const reduceMotion = useReducedMotion();
 
-  if (highlights.length === 0) return null
+  if (highlights.length === 0) return null;
 
-  const reviewCount = hotel.ratings?.google?.reviewCount ?? 0
-  const overallRating = hotel.ratings?.overall ?? 0
-  const roomCount = hotel.rooms?.length ?? 0
+  const reviewCount = hotel.ratings?.google?.reviewCount ?? 0;
+  const overallRating = hotel.ratings?.overall ?? 0;
+  const roomCount = hotel.rooms?.length ?? 0;
 
   const gridItems = GRID_ORDER.map((slot) => {
-    const matched = highlights.find((h) => matchHighlightToSlot(h) === slot.key)
-    return { ...slot, title: matched ?? slot.title }
-  })
+    const matched = highlights.find(
+      (h) => matchHighlightToSlot(h) === slot.key,
+    );
+    return { ...slot, title: matched ?? slot.title };
+  });
 
   const slides = [
-    { id: 'prime', type: 'prime' as const, primeTitle },
-    ...gridItems.map((item) => ({ id: item.key, type: 'grid' as const, ...item })),
-  ]
-  const n = slides.length
-  const VISIBLE = 4
-  const trackList = [...slides, slides[0]]
-  const trackLength = trackList.length
-  const duration = reduceMotion ? 0 : 0.45
-  const ease = [0.25, 0.46, 0.45, 0.94]
+    { id: "prime", type: "prime" as const, primeTitle },
+    ...gridItems.map((item) => ({
+      id: item.key,
+      type: "grid" as const,
+      ...item,
+    })),
+  ];
+  const n = slides.length;
+  const VISIBLE = 4;
+  // Duplicate first VISIBLE slides at end so at "last" position we show [last...] + [first...] with no empty gap
+  const trackList = [...slides, ...slides.slice(0, VISIBLE)];
+  const trackLength = trackList.length;
+  const duration = reduceMotion ? 0 : 0.45;
+  const ease = [0.25, 0.46, 0.45, 0.94];
 
   const goNext = useCallback(() => {
-    setSlideIndex((prev) => Math.min(prev + 1, n))
-  }, [n])
+    setSlideIndex((prev) => Math.min(prev + 1, n));
+  }, [n]);
 
   const goPrev = useCallback(() => {
-    setSlideIndex((prev) => (prev === 0 ? n : prev - 1))
-  }, [n])
+    setSlideIndex((prev) => (prev === 0 ? n : prev - 1));
+  }, [n]);
 
   const onSlideComplete = useCallback(() => {
     if (slideIndex === n && n > 0) {
-      setIsResetting(true)
-      setSlideIndex(0)
+      setIsResetting(true);
+      setSlideIndex(0);
     }
-  }, [slideIndex, n])
+  }, [slideIndex, n]);
 
   useEffect(() => {
-    if (!isResetting) return
-    const t = requestAnimationFrame(() => setIsResetting(false))
-    return () => cancelAnimationFrame(t)
-  }, [isResetting])
+    if (!isResetting) return;
+    const t = requestAnimationFrame(() => setIsResetting(false));
+    return () => cancelAnimationFrame(t);
+  }, [isResetting]);
 
   useEffect(() => {
-    if (n <= 1) return
-    const id = window.setInterval(goNext, 6000)
-    return () => window.clearInterval(id)
-  }, [n, goNext])
+    if (n <= 1) return;
+    const id = window.setInterval(goNext, 6000);
+    return () => window.clearInterval(id);
+  }, [n, goNext]);
 
-  const displayIndex = slideIndex >= n ? 0 : slideIndex
+  const displayIndex = slideIndex >= n ? 0 : slideIndex;
 
   return (
     <section
@@ -274,19 +400,21 @@ export function HighlightsSection({ hotel }: HighlightsSectionProps) {
               Why Stay With <span className="text-accent-gold">Us</span>
             </h2>
             {description && (
-              <p className="text-white/90 text-sm md:text-base max-w-md lg:text-right">{description}</p>
+              <p className="text-white/90 text-sm md:text-base max-w-md lg:text-right">
+                {description}
+              </p>
             )}
           </div>
         </header>
 
-        {/* Carousel */}
-        <div className="relative overflow-hidden rounded-lg border border-accent-gold/30 bg-bg-dark">
-          <div className="w-full overflow-hidden">
+        {/* Carousel: fixed height so section doesn't grow with prime card */}
+        <div className="relative overflow-hidden rounded-lg  border-accent-gold/30 bg-bg-dark">
+          <div className="w-full overflow-hidden h-[300px] md:h-[320px]">
             <motion.div
-              className="flex"
+              className="flex h-full"
               style={{ width: `${(trackLength * 100) / VISIBLE}%` }}
               animate={{
-                x: isResetting ? '0%' : `-${(slideIndex / trackLength) * 100}%`,
+                x: isResetting ? "0%" : `-${(slideIndex / trackLength) * 100}%`,
               }}
               transition={{
                 duration: isResetting ? 0 : duration,
@@ -295,11 +423,13 @@ export function HighlightsSection({ hotel }: HighlightsSectionProps) {
               onAnimationComplete={onSlideComplete}
             >
               {trackList.map((slide, i) => (
-                <div key={`${slide.id}-${i}`} className="flex-none px-1" style={{ width: `${100 / trackLength}%` }}>
-                  {slide.type === 'prime' ? (
-                    <PrimeLocationCard
-                      primeTitle={slide.primeTitle ?? null}
-                    />
+                <div
+                  key={`${slide.id}-${i}`}
+                  className="flex-none h-full px-1"
+                  style={{ width: `${100 / trackLength}%` }}
+                >
+                  {slide.type === "prime" ? (
+                    <PrimeLocationCard primeTitle={slide.primeTitle ?? null} />
                   ) : (
                     <HighlightCarouselCard
                       title={slide.title}
@@ -327,7 +457,7 @@ export function HighlightsSection({ hotel }: HighlightsSectionProps) {
                   <span
                     key={i}
                     className={`h-2 w-2 rounded-full transition-colors ${
-                      i === displayIndex ? 'bg-accent-gold' : 'bg-white/30'
+                      i === displayIndex ? "bg-accent-gold" : "bg-white/30"
                     }`}
                     aria-hidden
                   />
@@ -349,62 +479,75 @@ export function HighlightsSection({ hotel }: HighlightsSectionProps) {
         <div className="mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
           <div className="text-center">
             <p className="text-accent-gold text-2xl md:text-3xl font-bold">
-              {reviewCount > 0 ? `${reviewCount}+` : '—'}
+              {reviewCount > 0 ? `${reviewCount}+` : "—"}
             </p>
-            <p className="text-white/80 text-xs font-semibold tracking-widest uppercase mt-1">Guest reviews</p>
+            <p className="text-white/80 text-xs font-semibold tracking-widest uppercase mt-1">
+              Guest reviews
+            </p>
           </div>
           <div className="text-center">
             <p className="text-accent-gold text-2xl md:text-3xl font-bold">
-              {overallRating > 0 ? overallRating.toFixed(1) : '—'}
+              {overallRating > 0 ? overallRating.toFixed(1) : "—"}
             </p>
-            <p className="text-white/80 text-xs font-semibold tracking-widest uppercase mt-1">Google rating</p>
+            <p className="text-white/80 text-xs font-semibold tracking-widest uppercase mt-1">
+              Google rating
+            </p>
           </div>
           <div className="text-center">
-            <p className="text-accent-gold text-2xl md:text-3xl font-bold">{roomCount > 0 ? roomCount : '—'}</p>
-            <p className="text-white/80 text-xs font-semibold tracking-widest uppercase mt-1">Room types</p>
+            <p className="text-accent-gold text-2xl md:text-3xl font-bold">
+              {roomCount > 0 ? roomCount : "—"}
+            </p>
+            <p className="text-white/80 text-xs font-semibold tracking-widest uppercase mt-1">
+              Room types
+            </p>
           </div>
           <div className="text-center">
-            <p className="text-accent-gold text-2xl md:text-3xl font-bold">24/7</p>
-            <p className="text-white/80 text-xs font-semibold tracking-widest uppercase mt-1">Support</p>
+            <p className="text-accent-gold text-2xl md:text-3xl font-bold">
+              24/7
+            </p>
+            <p className="text-white/80 text-xs font-semibold tracking-widest uppercase mt-1">
+              Support
+            </p>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 function PrimeLocationCard({ primeTitle }: { primeTitle: string | null }) {
   return (
-    <div className="relative rounded-lg border border-accent-gold/20 bg-highlight-card p-6 md:p-8 min-h-[300px] flex flex-col">
+    <div className="h-full relative rounded-lg border border-accent-gold/20 bg-highlight-card p-5 md:p-6 flex flex-col min-h-0">
       <span
-        className="absolute inset-0 flex items-center justify-center text-white/[0.06] font-serif text-7xl md:text-8xl pointer-events-none select-none tracking-tighter rounded-lg"
+        className="absolute inset-0 flex items-center justify-center text-white/[0.06] font-serif text-6xl md:text-7xl pointer-events-none select-none tracking-tighter rounded-lg"
         aria-hidden
       >
         OI
       </span>
-      <div className="relative z-10 flex items-start gap-4">
+      <div className="relative z-10 flex items-start gap-3 flex-1 min-h-0">
         <span className="flex-shrink-0">
           <HighlightIcon type="building" featured />
         </span>
-        <div className="flex-1 min-w-0">
-          <span className="inline-block text-accent-gold text-xs font-semibold tracking-wider uppercase border border-accent-gold px-2 py-0.5 bg-accent-gold/10">
+        <div className="flex-1 min-w-0 flex flex-col">
+          <span className="inline-block text-accent-gold text-xs font-semibold tracking-wider uppercase border border-accent-gold px-2 py-0.5 bg-accent-gold/10 w-fit">
             PRIME LOCATION
           </span>
-          <h3 className="mt-3 font-serif text-xl md:text-2xl font-bold text-accent-gold">
-            {primeTitle ?? 'Near US Consulate & VFS Global'}
+          <h3 className="mt-2 font-serif text-lg md:text-xl font-bold text-accent-gold line-clamp-1">
+            {primeTitle ?? "Near US Consulate & VFS Global"}
           </h3>
-          <p className="mt-2 text-white/90 text-sm">
-            Perfectly positioned for visa applicants and consulate visitors. Arrive refreshed and on time — we're just
-            minutes from your appointment.
+          <p className="mt-1 text-white/90 text-sm line-clamp-3 flex-1 min-h-0">
+            Perfectly positioned for visa applicants and consulate visitors.
+            Arrive refreshed and on time — we're just minutes from your
+            appointment.
           </p>
-          <div className="mt-4 pt-4 border-t border-white/10 flex justify-between text-sm text-white/90">
+          <div className="mt-2 pt-2 border-t border-white/10 flex justify-between text-xs text-white/90 flex-shrink-0">
             <span>5 min walk</span>
             <span>Anna Salai</span>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function HighlightCarouselCard({
@@ -413,19 +556,23 @@ function HighlightCarouselCard({
   tag,
   icon,
 }: {
-  title: string
-  description: string
-  tag: string
-  icon: IconType
+  title: string;
+  description: string;
+  tag: string;
+  icon: IconType;
 }) {
   return (
-    <div className="rounded-lg border border-accent-gold/20 bg-highlight-card p-5 md:p-6 flex flex-col min-h-[260px]">
+    <div className="h-full rounded-lg border border-accent-gold/20 bg-highlight-card p-5 md:p-6 flex flex-col min-h-0">
       <HighlightIcon type={icon} />
-      <h3 className="mt-3 font-serif text-base md:text-lg font-semibold text-white">{title}</h3>
-      <p className="mt-1 text-white/80 text-sm flex-1 line-clamp-3">{description}</p>
-      <span className="mt-3 inline-block text-white/90 text-xs font-semibold tracking-wider uppercase border border-accent-gold rounded-md bg-bg-dark/80 px-2 py-1.5 w-fit">
+      <h3 className="mt-2 font-serif text-base md:text-lg font-semibold text-white line-clamp-1">
+        {title}
+      </h3>
+      <p className="mt-1 text-white/80 text-sm flex-1 line-clamp-3 min-h-0">
+        {description}
+      </p>
+      <span className="mt-2 inline-block text-white/90 text-xs font-semibold tracking-wider uppercase border border-accent-gold rounded-md bg-bg-dark/80 px-2 py-1.5 w-fit flex-shrink-0">
         {tag}
       </span>
     </div>
-  )
+  );
 }
