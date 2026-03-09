@@ -74,11 +74,16 @@ export interface Scene3D {
   cameraPath: CameraKeyframe[]
 }
 
+/** E.164 or display phone; used for tel: and WhatsApp. */
+export type Phone = string
+
 export interface Hotel {
   slug: string
   name: string
   tagline: string
   shortDescription: string
+  /** Optional phone for Call and WhatsApp booking. */
+  phone?: Phone
   location: Location
   ratings: Ratings
   topPositiveComments: ReviewComment[]

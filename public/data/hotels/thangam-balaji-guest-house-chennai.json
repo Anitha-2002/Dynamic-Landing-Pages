@@ -3,6 +3,7 @@
   "name": "Thangam Balaji Guest House",
   "tagline": "Comfort, cleanliness, and convenience in central Chennai.",
   "shortDescription": "Budget guest house near US Consulate, Apollo Cancer Hospital, and Teynampet. Ideal for business travelers, families, and medical visitors with affordable rooms and a homely atmosphere.",
+  "phone": "+91 44 1234 5678",
   "location": {
     "address": "407, Anna Salai, near Kalaignar Tv, Subbarayan Nagar, Teynampet, Chennai, Tamil Nadu 600018",
     "latitude": 13.039,
@@ -35,6 +36,42 @@
       "author": "Guest",
       "source": "Google Reviews",
       "rating": 4
+    },
+    {
+      "quote": "The manager and the owner were extremely kind, friendly, and helpful throughout my stay. The room was neat, clean, and well maintained. The location is good and easily accessible within Chennai.",
+      "author": "Guest",
+      "source": "Google Reviews",
+      "rating": 5
+    },
+    {
+      "quote": "Excellent stay with superb service and hospitality. The room was very clean and hygienic, and the overall maintenance was impressive.",
+      "author": "Raj Poojari",
+      "source": "Google Reviews",
+      "rating": 5
+    },
+    {
+      "quote": "Good place to stay for a one day Chennai trip. Staff were very polite and helpful, and the room and bathroom were neat and clean.",
+      "author": "Ameer Khan",
+      "source": "Google Reviews",
+      "rating": 5
+    },
+    {
+      "quote": "Overall a good budget friendly stay near the main road with easy access to transport. Staff are friendly and rooms are neatly maintained.",
+      "author": "Raghuveer Sindhe",
+      "source": "Google Reviews",
+      "rating": 5
+    },
+    {
+      "quote": "The rooms are clean and well maintained with comfortable facilities. The staff are friendly and helpful, always ready to assist.",
+      "author": "Praveen Dona",
+      "source": "Google Reviews",
+      "rating": 5
+    },
+    {
+      "quote": "Good place to stay for a short Chennai trip. Staff were very polite, especially Alex and Loga, and the team was helpful.",
+      "author": "Zishan Shaikh",
+      "source": "Google Reviews",
+      "rating": 5
     }
   ],
   "highlights": [
