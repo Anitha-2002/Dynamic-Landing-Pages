@@ -19,8 +19,9 @@
   --color-blue-led-rgb: 0, 191, 255;
   --color-blue-glow: #0080ff;
   /* Section contrast: lighter vs darker blocks */
-  --color-section-light: #121a2e;
+  --color-section-light: #1e293b;
   --color-section-dark: #0a0e1a;
+  --color-section-rooms: #0d9488;
   --color-footer: #050810;
 }
 

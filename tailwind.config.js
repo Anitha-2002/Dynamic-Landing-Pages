@@ -20,6 +20,7 @@ export default {
         'blue-glow': 'var(--color-blue-glow)',
         'section-light': 'var(--color-section-light)',
         'section-dark': 'var(--color-section-dark)',
+        'section-rooms': 'var(--color-section-rooms)',
         'footer-bg': 'var(--color-footer)',
       },
       fontFamily: {

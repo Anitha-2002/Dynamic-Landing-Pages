@@ -15,7 +15,7 @@ export function LocationSection({ hotel }: LocationSectionProps) {
 
   return (
     <section
-      className="py-12 md:py-16 px-4 bg-section-light"
+      className="py-12 md:py-16 px-4 bg-section-dark"
       aria-labelledby="location-heading"
     >
       <div className="max-w-6xl mx-auto">
