@@ -55,7 +55,8 @@ body {
 }
 
 @keyframes led-pulse {
-  0%, 100% {
+  0%,
+  100% {
     text-shadow:
       0 0 4px var(--color-accent-gold),
       0 0 8px var(--color-accent-gold),
@@ -124,6 +125,15 @@ body {
 /* Page background extending banner theme */
 .bg-banner-page {
   background: var(--color-banner-night);
-  background-image: radial-gradient(ellipse 120% 80% at 50% 0%, var(--color-banner-night-soft) 0%, transparent 50%),
-    linear-gradient(180deg, var(--color-banner-night-soft) 0%, var(--color-banner-night) 100%);
+  background-image:
+    radial-gradient(
+      ellipse 120% 80% at 50% 0%,
+      var(--color-banner-night-soft) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      180deg,
+      var(--color-banner-night-soft) 0%,
+      var(--color-banner-night) 100%
+    );
 }

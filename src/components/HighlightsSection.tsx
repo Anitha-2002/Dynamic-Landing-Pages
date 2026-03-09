@@ -280,13 +280,18 @@ function IconDefault() {
 function HighlightIcon({
   type,
   featured,
+  light,
 }: {
   type: IconType;
   featured?: boolean;
+  light?: boolean;
 }) {
   const size = featured ? "w-14 h-14" : "w-10 h-10";
-  const circleClass = `flex items-center justify-center rounded-full bg-white/10 text-accent-gold border-2 border-accent-gold/50 ${size}`;
-  const boxClass = `flex items-center justify-center rounded-lg bg-white/10 text-accent-gold border-2 border-accent-gold/50 ${size}`;
+  const base = light
+    ? "bg-accent-gold/10 text-accent-gold border-2 border-accent-gold/50"
+    : "bg-white/10 text-accent-gold border-2 border-accent-gold/50";
+  const circleClass = `flex items-center justify-center rounded-full ${base} ${size}`;
+  const boxClass = `flex items-center justify-center rounded-lg ${base} ${size}`;
   const content = (() => {
     switch (type) {
       case "building":
@@ -517,16 +522,16 @@ export function HighlightsSection({ hotel }: HighlightsSectionProps) {
 
 function PrimeLocationCard({ primeTitle }: { primeTitle: string | null }) {
   return (
-    <div className="h-full relative rounded-lg border border-accent-gold/20 bg-highlight-card p-5 md:p-6 flex flex-col min-h-0">
+    <div className="h-full relative rounded-lg border border-gray-200 bg-bg-light shadow-sm p-5 md:p-6 flex flex-col min-h-0">
       <span
-        className="absolute inset-0 flex items-center justify-center text-white/[0.06] font-serif text-6xl md:text-7xl pointer-events-none select-none tracking-tighter rounded-lg"
+        className="absolute inset-0 flex items-center justify-center text-gray-200 font-serif text-6xl md:text-7xl pointer-events-none select-none tracking-tighter rounded-lg"
         aria-hidden
       >
         OI
       </span>
       <div className="relative z-10 flex items-start gap-3 flex-1 min-h-0">
         <span className="flex-shrink-0">
-          <HighlightIcon type="building" featured />
+          <HighlightIcon type="building" featured light />
         </span>
         <div className="flex-1 min-w-0 flex flex-col">
           <span className="inline-block text-accent-gold text-xs font-semibold tracking-wider uppercase border border-accent-gold px-2 py-0.5 bg-accent-gold/10 w-fit">
@@ -535,12 +540,12 @@ function PrimeLocationCard({ primeTitle }: { primeTitle: string | null }) {
           <h3 className="mt-2 font-serif text-lg md:text-xl font-bold text-accent-gold line-clamp-1">
             {primeTitle ?? "Near US Consulate & VFS Global"}
           </h3>
-          <p className="mt-1 text-white/90 text-sm line-clamp-3 flex-1 min-h-0">
+          <p className="mt-1 text-text-muted text-sm line-clamp-3 flex-1 min-h-0">
             Perfectly positioned for visa applicants and consulate visitors.
             Arrive refreshed and on time — we're just minutes from your
             appointment.
           </p>
-          <div className="mt-2 pt-2 border-t border-white/10 flex justify-between text-xs text-white/90 flex-shrink-0">
+          <div className="mt-2 pt-2 border-t border-gray-200 flex justify-between text-xs text-text-muted flex-shrink-0">
             <span>5 min walk</span>
             <span>Anna Salai</span>
           </div>
@@ -562,15 +567,15 @@ function HighlightCarouselCard({
   icon: IconType;
 }) {
   return (
-    <div className="h-full rounded-lg border border-accent-gold/20 bg-highlight-card p-5 md:p-6 flex flex-col min-h-0">
-      <HighlightIcon type={icon} />
-      <h3 className="mt-2 font-serif text-base md:text-lg font-semibold text-white line-clamp-1">
+    <div className="h-full rounded-lg border border-gray-200 bg-bg-light shadow-sm p-5 md:p-6 flex flex-col min-h-0">
+      <HighlightIcon type={icon} light />
+      <h3 className="mt-2 font-serif text-base md:text-lg font-semibold text-text-primary line-clamp-1">
         {title}
       </h3>
-      <p className="mt-1 text-white/80 text-sm flex-1 line-clamp-3 min-h-0">
+      <p className="mt-1 text-text-muted text-sm flex-1 line-clamp-3 min-h-0">
         {description}
       </p>
-      <span className="mt-2 inline-block text-white/90 text-xs font-semibold tracking-wider uppercase border border-accent-gold rounded-md bg-bg-dark/80 px-2 py-1.5 w-fit flex-shrink-0">
+      <span className="mt-2 inline-block text-accent-gold text-xs font-semibold tracking-wider uppercase border border-accent-gold rounded-md bg-accent-gold/10 px-2 py-1.5 w-fit flex-shrink-0">
         {tag}
       </span>
     </div>
