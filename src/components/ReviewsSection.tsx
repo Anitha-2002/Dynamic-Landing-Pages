@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import type { Hotel } from '../services/hotelApi'
 
 interface ReviewsSectionProps {
@@ -8,33 +9,51 @@ interface ReviewsSectionProps {
 export function ReviewsSection({ hotel }: ReviewsSectionProps) {
   const comments = hotel.topPositiveComments ?? []
   const ratings = hotel.ratings
-  const [activeIndex, setActiveIndex] = useState(0)
+  const VISIBLE = 3
+  const n = comments.length
+  const [slideIndex, setSlideIndex] = useState(0)
+  const [isResetting, setIsResetting] = useState(false)
+  const reduceMotion = useReducedMotion()
+
+  // Duplicate list for infinite: when we reach slideIndex n we show same as 0, then reset
+  const trackList = n > 0 ? [...comments, ...comments] : []
+  const trackLength = trackList.length
+
+  const duration = reduceMotion ? 0 : 0.45
+  const ease = [0.25, 0.46, 0.45, 0.94]
+
+  const goNext = useCallback(() => {
+    if (n <= 1) return
+    setSlideIndex((prev) => Math.min(prev + 1, n))
+  }, [n])
+
+  const goPrev = useCallback(() => {
+    if (n <= 1) return
+    setSlideIndex((prev) => (prev === 0 ? n : prev - 1))
+  }, [n])
+
+  const onSlideComplete = useCallback(() => {
+    if (slideIndex === n && n > 0) {
+      setIsResetting(true)
+      setSlideIndex(0)
+    }
+  }, [slideIndex, n])
+
+  useEffect(() => {
+    if (!isResetting) return
+    const t = requestAnimationFrame(() => setIsResetting(false))
+    return () => cancelAnimationFrame(t)
+  }, [isResetting])
+
+  useEffect(() => {
+    if (n < VISIBLE) return
+    const id = window.setInterval(goNext, 6000)
+    return () => window.clearInterval(id)
+  }, [n, goNext])
 
   if (comments.length === 0) return null
 
-  const visibleCount = Math.min(2, comments.length)
-  const visibleComments = Array.from({ length: visibleCount }, (_, offset) => {
-    const idx = (activeIndex + offset) % comments.length
-    return { comment: comments[idx], index: idx }
-  })
-
-  useEffect(() => {
-    if (comments.length <= visibleCount) return
-    const id = window.setInterval(() => {
-      setActiveIndex((prev) => (prev + visibleCount) % comments.length)
-    }, 6000)
-    return () => window.clearInterval(id)
-  }, [comments.length, visibleCount])
-
-  const goNext = () => {
-    if (comments.length <= visibleCount) return
-    setActiveIndex((prev) => (prev + visibleCount) % comments.length)
-  }
-
-  const goPrev = () => {
-    if (comments.length <= visibleCount) return
-    setActiveIndex((prev) => (prev - visibleCount + comments.length) % comments.length)
-  }
+  const displayIndex = slideIndex >= n ? 0 : slideIndex
 
   return (
     <section
@@ -60,45 +79,60 @@ export function ReviewsSection({ hotel }: ReviewsSectionProps) {
             </div>
           </div>
         )}
-        <div className="relative">
-          <div className="flex flex-col lg:flex-row gap-6">
-            {visibleComments.map(({ comment: c, index: i }) => (
-              <blockquote
-                key={i}
-                className={`flex-1 p-6 rounded-xl border-2 bg-white shadow-sm border-accent-gold ${
-                  i === activeIndex ? 'shadow-md' : ''
-                }`}
-                onFocus={() => setActiveIndex(i)}
-              >
-                <p className="text-text-primary mb-4">&ldquo;{c.quote}&rdquo;</p>
-                <footer className="flex items-center justify-between text-sm text-text-muted">
-                  <cite className="not-italic font-medium text-text-primary">{c.author}</cite>
-                  <span>{c.source}</span>
-                  {c.rating != null && (
-                    <span className="text-accent-gold" aria-label={`${c.rating} stars`}>
-                      {'★'.repeat(c.rating)}
-                    </span>
-                  )}
-                </footer>
-              </blockquote>
-            ))}
+        <div className="relative overflow-hidden">
+          <div className="w-full overflow-hidden">
+            <motion.div
+              className="flex"
+              style={{ width: `${(trackLength * 100) / VISIBLE}%` }}
+              animate={{
+                x: isResetting ? '0%' : `-${(slideIndex / trackLength) * 100}%`,
+              }}
+              transition={{
+                duration: isResetting ? 0 : duration,
+                ease,
+              }}
+              onAnimationComplete={onSlideComplete}
+            >
+              {trackList.map((c, i) => (
+                <div
+                  key={i}
+                  className="flex-none px-2 sm:px-3"
+                  style={{ width: `${100 / trackLength}%` }}
+                >
+                  <blockquote className="h-full p-6 rounded-xl border-2 bg-white shadow-sm border-accent-gold">
+                    <p className="text-text-primary mb-4">&ldquo;{c.quote}&rdquo;</p>
+                    <footer className="flex items-center justify-between text-sm text-text-muted">
+                      <cite className="not-italic font-medium text-text-primary">{c.author}</cite>
+                      <span>{c.source}</span>
+                      {c.rating != null && (
+                        <span className="text-accent-gold" aria-label={`${c.rating} stars`}>
+                          {'★'.repeat(c.rating)}
+                        </span>
+                      )}
+                    </footer>
+                  </blockquote>
+                </div>
+              ))}
+            </motion.div>
           </div>
-          {comments.length > visibleCount && (
+          {n > 1 && (
             <div className="mt-6 flex items-center justify-between">
               <button
                 type="button"
                 onClick={goPrev}
                 className="text-sm text-primary-blue hover:underline"
+                aria-label="Previous review"
               >
                 Previous
               </button>
-              <div className="flex gap-1">
+              <div className="flex gap-1.5">
                 {comments.map((_, i) => (
                   <span
                     key={i}
-                    className={`h-1.5 w-1.5 rounded-full ${
-                      i === activeIndex ? 'bg-accent-gold' : 'bg-gray-300'
+                    className={`h-2 w-2 rounded-full transition-colors ${
+                      i === displayIndex ? 'bg-accent-gold' : 'bg-gray-300'
                     }`}
+                    aria-hidden
                   />
                 ))}
               </div>
@@ -106,6 +140,7 @@ export function ReviewsSection({ hotel }: ReviewsSectionProps) {
                 type="button"
                 onClick={goNext}
                 className="text-sm text-primary-blue hover:underline"
+                aria-label="Next review"
               >
                 Next
               </button>
