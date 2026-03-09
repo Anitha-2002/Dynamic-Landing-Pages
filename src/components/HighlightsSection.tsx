@@ -1,3 +1,5 @@
+import { useCallback, useEffect, useState } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import type { Hotel } from '../services/hotelApi'
 
 interface HighlightsSectionProps {
@@ -192,18 +194,14 @@ function HighlightIcon({ type, featured }: { type: IconType; featured?: boolean 
   return <span className={circleClass}>{content}</span>
 }
 
-function splitTitleForGold(title: string): { main: string; gold: string } {
-  const andIdx = title.indexOf(' & ')
-  if (andIdx !== -1) return { main: title.slice(0, andIdx), gold: title.slice(andIdx) }
-  const andIdx2 = title.indexOf(' and ')
-  if (andIdx2 !== -1) return { main: title.slice(0, andIdx2), gold: title.slice(andIdx2) }
-  return { main: title, gold: '' }
-}
-
 export function HighlightsSection({ hotel }: HighlightsSectionProps) {
   const highlights = hotel.highlights ?? []
   const description = hotel.tagline ?? hotel.shortDescription ?? ''
   const primeTitle = getPrimeLocationHighlight(highlights)
+
+  const [slideIndex, setSlideIndex] = useState(0)
+  const [isResetting, setIsResetting] = useState(false)
+  const reduceMotion = useReducedMotion()
 
   if (highlights.length === 0) return null
 
@@ -215,6 +213,46 @@ export function HighlightsSection({ hotel }: HighlightsSectionProps) {
     const matched = highlights.find((h) => matchHighlightToSlot(h) === slot.key)
     return { ...slot, title: matched ?? slot.title }
   })
+
+  const slides = [
+    { id: 'prime', type: 'prime' as const, primeTitle },
+    ...gridItems.map((item) => ({ id: item.key, type: 'grid' as const, ...item })),
+  ]
+  const n = slides.length
+  const VISIBLE = 4
+  const trackList = [...slides, slides[0]]
+  const trackLength = trackList.length
+  const duration = reduceMotion ? 0 : 0.45
+  const ease = [0.25, 0.46, 0.45, 0.94]
+
+  const goNext = useCallback(() => {
+    setSlideIndex((prev) => Math.min(prev + 1, n))
+  }, [n])
+
+  const goPrev = useCallback(() => {
+    setSlideIndex((prev) => (prev === 0 ? n : prev - 1))
+  }, [n])
+
+  const onSlideComplete = useCallback(() => {
+    if (slideIndex === n && n > 0) {
+      setIsResetting(true)
+      setSlideIndex(0)
+    }
+  }, [slideIndex, n])
+
+  useEffect(() => {
+    if (!isResetting) return
+    const t = requestAnimationFrame(() => setIsResetting(false))
+    return () => cancelAnimationFrame(t)
+  }, [isResetting])
+
+  useEffect(() => {
+    if (n <= 1) return
+    const id = window.setInterval(goNext, 6000)
+    return () => window.clearInterval(id)
+  }, [n, goNext])
+
+  const displayIndex = slideIndex >= n ? 0 : slideIndex
 
   return (
     <section
@@ -241,62 +279,70 @@ export function HighlightsSection({ hotel }: HighlightsSectionProps) {
           </div>
         </header>
 
-        {/* Main content: left = Prime Location, right = 2x3 grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 border border-accent-gold/30 rounded-lg overflow-hidden bg-highlight-card">
-          {/* Left: Prime Location block (~1/3) */}
-          <div className="lg:col-span-1 relative p-6 md:p-8 min-h-[320px] flex flex-col border-b lg:border-b-0 lg:border-r border-white/10">
-            <span
-              className="absolute inset-0 flex items-center justify-center text-white/[0.06] font-serif text-7xl md:text-8xl pointer-events-none select-none tracking-tighter"
-              aria-hidden
+        {/* Carousel */}
+        <div className="relative overflow-hidden rounded-lg border border-accent-gold/30 bg-bg-dark">
+          <div className="w-full overflow-hidden">
+            <motion.div
+              className="flex"
+              style={{ width: `${(trackLength * 100) / VISIBLE}%` }}
+              animate={{
+                x: isResetting ? '0%' : `-${(slideIndex / trackLength) * 100}%`,
+              }}
+              transition={{
+                duration: isResetting ? 0 : duration,
+                ease,
+              }}
+              onAnimationComplete={onSlideComplete}
             >
-              OI
-            </span>
-            <div className="relative z-10 flex items-start gap-4">
-              <span className="flex-shrink-0 -ml-1">
-                <HighlightIcon type="building" featured />
-              </span>
-              <div className="flex-1 min-w-0">
-                <span className="inline-block text-accent-gold text-xs font-semibold tracking-wider uppercase border border-accent-gold px-2 py-0.5">
-                  PRIME LOCATION
-                </span>
-                <h3 className="mt-3 font-serif text-xl md:text-2xl text-white">
-                  {primeTitle ? (
-                    <>
-                      {splitTitleForGold(primeTitle).main}
-                      <span className="text-accent-gold">{splitTitleForGold(primeTitle).gold}</span>
-                    </>
+              {trackList.map((slide, i) => (
+                <div key={`${slide.id}-${i}`} className="flex-none px-1" style={{ width: `${100 / trackLength}%` }}>
+                  {slide.type === 'prime' ? (
+                    <PrimeLocationCard
+                      primeTitle={slide.primeTitle ?? null}
+                    />
                   ) : (
-                    'Near US Consulate & VFS Global'
+                    <HighlightCarouselCard
+                      title={slide.title}
+                      description={slide.description}
+                      tag={slide.tag}
+                      icon={slide.icon}
+                    />
                   )}
-                </h3>
-                <p className="mt-2 text-white/90 text-sm">
-                  Perfectly positioned for visa applicants and consulate visitors. Arrive refreshed and on time — we're
-                  just minutes from your appointment.
-                </p>
-                <div className="mt-4 pt-4 border-t border-white/10 flex justify-between text-sm text-white/90">
-                  <span>5 min walk</span>
-                  <span>Anna Salai</span>
                 </div>
-              </div>
-            </div>
+              ))}
+            </motion.div>
           </div>
-
-          {/* Right: 2x3 grid (~2/3) */}
-          <div className="lg:col-span-2 grid grid-cols-2 grid-rows-3 gap-px bg-white/10">
-            {gridItems.map((item) => (
-              <div
-                key={item.key}
-                className="bg-highlight-card p-4 md:p-5 flex flex-col min-h-[160px] md:min-h-[180px]"
+          {n > 1 && (
+            <div className="flex items-center justify-between px-2 py-4 border-t border-white/10">
+              <button
+                type="button"
+                onClick={goPrev}
+                className="text-accent-gold text-sm font-semibold hover:opacity-90 transition uppercase tracking-wider"
+                aria-label="Previous highlight"
               >
-                <HighlightIcon type={item.icon} />
-                <h3 className="mt-3 font-serif text-base md:text-lg font-semibold text-white">{item.title}</h3>
-                <p className="mt-1 text-white/80 text-sm flex-1 line-clamp-2">{item.description}</p>
-                <span className="mt-3 inline-block text-accent-gold text-xs font-semibold tracking-wider uppercase border border-accent-gold/60 px-2 py-0.5 w-fit">
-                  {item.tag}
-                </span>
+                Previous
+              </button>
+              <div className="flex gap-1.5">
+                {slides.map((_, i) => (
+                  <span
+                    key={i}
+                    className={`h-2 w-2 rounded-full transition-colors ${
+                      i === displayIndex ? 'bg-accent-gold' : 'bg-white/30'
+                    }`}
+                    aria-hidden
+                  />
+                ))}
               </div>
-            ))}
-          </div>
+              <button
+                type="button"
+                onClick={goNext}
+                className="text-accent-gold text-sm font-semibold hover:opacity-90 transition uppercase tracking-wider"
+                aria-label="Next highlight"
+              >
+                Next
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Statistics */}
@@ -324,5 +370,62 @@ export function HighlightsSection({ hotel }: HighlightsSectionProps) {
         </div>
       </div>
     </section>
+  )
+}
+
+function PrimeLocationCard({ primeTitle }: { primeTitle: string | null }) {
+  return (
+    <div className="relative rounded-lg border border-accent-gold/20 bg-highlight-card p-6 md:p-8 min-h-[300px] flex flex-col">
+      <span
+        className="absolute inset-0 flex items-center justify-center text-white/[0.06] font-serif text-7xl md:text-8xl pointer-events-none select-none tracking-tighter rounded-lg"
+        aria-hidden
+      >
+        OI
+      </span>
+      <div className="relative z-10 flex items-start gap-4">
+        <span className="flex-shrink-0">
+          <HighlightIcon type="building" featured />
+        </span>
+        <div className="flex-1 min-w-0">
+          <span className="inline-block text-accent-gold text-xs font-semibold tracking-wider uppercase border border-accent-gold px-2 py-0.5 bg-accent-gold/10">
+            PRIME LOCATION
+          </span>
+          <h3 className="mt-3 font-serif text-xl md:text-2xl font-bold text-accent-gold">
+            {primeTitle ?? 'Near US Consulate & VFS Global'}
+          </h3>
+          <p className="mt-2 text-white/90 text-sm">
+            Perfectly positioned for visa applicants and consulate visitors. Arrive refreshed and on time — we're just
+            minutes from your appointment.
+          </p>
+          <div className="mt-4 pt-4 border-t border-white/10 flex justify-between text-sm text-white/90">
+            <span>5 min walk</span>
+            <span>Anna Salai</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function HighlightCarouselCard({
+  title,
+  description,
+  tag,
+  icon,
+}: {
+  title: string
+  description: string
+  tag: string
+  icon: IconType
+}) {
+  return (
+    <div className="rounded-lg border border-accent-gold/20 bg-highlight-card p-5 md:p-6 flex flex-col min-h-[260px]">
+      <HighlightIcon type={icon} />
+      <h3 className="mt-3 font-serif text-base md:text-lg font-semibold text-white">{title}</h3>
+      <p className="mt-1 text-white/80 text-sm flex-1 line-clamp-3">{description}</p>
+      <span className="mt-3 inline-block text-white/90 text-xs font-semibold tracking-wider uppercase border border-accent-gold rounded-md bg-bg-dark/80 px-2 py-1.5 w-fit">
+        {tag}
+      </span>
+    </div>
   )
 }
